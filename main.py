@@ -2,6 +2,7 @@ from flask import Flask, request, make_response, redirect, render_template
 
 app = Flask(__name__)
 
+tasks = ['Task 1','Task 2','Task 3']
 
 @app.route('/')
 def index():
@@ -14,7 +15,11 @@ def index():
 @app.route('/home')
 def home():
     user_ip = request.cookies.get('user_ip')
-    return render_template('home.html', user_ip=user_ip)
+    context = {
+        'user_ip': user_ip,
+        'tasks': tasks
+    }
+    return render_template('home.html', **context)
 
 
 if __name__ == '__main__':
