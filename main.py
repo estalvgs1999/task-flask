@@ -4,11 +4,16 @@ app = Flask(__name__)
 
 tasks = ['Task 1','Task 2','Task 3']
 
+@app.errorhandler(404)
+def not_found(error):
+    return render_template('404.html', error=error)
+
+
 @app.route('/')
 def index():
     user_ip = request.remote_addr
     response = make_response(redirect('/home'))
-    response.set_cookie('user_ip',user_ip)
+    response.set_cookie('user_ip', user_ip)
     return response
 
 
