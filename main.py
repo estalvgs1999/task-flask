@@ -25,8 +25,6 @@ def index():
 @app.route('/home')
 def home():
     user_ip = request.cookies.get('user_ip')
-    asix = []
-    b = asix.prop
     context = {
         'user_ip': user_ip,
         'tasks': tasks
