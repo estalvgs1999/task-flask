@@ -1,7 +1,9 @@
-from flask import Flask, request, make_response, redirect, render_template
+from flask import Flask, request, make_response, redirect, render_template, session
 from flask_bootstrap import Bootstrap
 
 app = Flask(__name__)
+app.config['SECRET_KEY'] = '36d4J0Ltp3lRtee9HDxY3K'
+
 bootstrap = Bootstrap(app)
 
 tasks = ['Task 1','Task 2','Task 3']
@@ -20,13 +22,13 @@ def server_error(error):
 def index():
     user_ip = request.remote_addr
     response = make_response(redirect('/home'))
-    response.set_cookie('user_ip', user_ip)
+    session['user_ip'] = user_ip
     return response
 
 
 @app.route('/home')
 def home():
-    user_ip = request.cookies.get('user_ip')
+    user_ip = session.get('user_ip')
     context = {
         'user_ip': user_ip,
         'tasks': tasks
