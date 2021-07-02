@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% import 'macros.html' as macros %}
+{% import 'bootstrap/wtf.html' as wtf%}
 
 {% block title %}
     {{ super() }}
@@ -8,14 +9,18 @@
 
 {% block content %}
     {% if user_ip %}
-        <h1>Hello World Platzi! That's your IP: {{user_ip}}</h1>
+        <h1>Platzi Flask</h1>
     {% else %}
         <a href="{{ url_for('index')}}">Go Home</a>
     {% endif %}
 
+    <div class="container">
+        {{ wtf.quick_form(login_form) }}
+    </div>
+<!-- 
     <ul>
         {% for task in tasks %}
             {{ macros.render_task(task) }}
         {% endfor %}
-    </ul>
+    </ul> -->
 {% endblock %}
