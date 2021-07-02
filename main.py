@@ -66,7 +66,9 @@ def home():
         'username': username
     }
 
-    return render_template('home.html', **context)
+    if username:
+        return render_template('home.html', **context)
+    return make_response(redirect('/login'))
 
 
 if __name__ == '__main__':
