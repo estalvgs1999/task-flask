@@ -8,11 +8,12 @@
 {% endblock %}
 
 {% block content %}
-    <h1>Welcome {{ username }}!</h1>
-    <p>Ipv4: {{ user_ip }}</p>
-    <ul class="tasks">
-        {% for task in tasks %}
-            {{ macros.render_task(task) }}
-        {% endfor %}
-    </ul>
+    <h1>Platzi Flask</h1>
+    {% if not user_ip %}
+        <a href="{{ url_for('index')}}">Go Home</a>
+    {% endif %}
+
+    <div class="container">
+        {{ wtf.quick_form(login_form) }}
+    </div>
 {% endblock %}

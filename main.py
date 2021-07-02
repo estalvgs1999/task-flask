@@ -1,4 +1,4 @@
-from flask import Flask, request, make_response, redirect, render_template, session
+from flask import Flask, request, make_response, redirect, render_template, session, url_for
 from flask_bootstrap import Bootstrap
 from flask_wtf import FlaskForm
 from wtforms.fields import StringField, PasswordField,SubmitField
@@ -30,19 +30,42 @@ def server_error(error):
 @app.route('/')
 def index():
     user_ip = request.remote_addr
-    response = make_response(redirect('/home'))
+    response = make_response(redirect('/login'))
     session['user_ip'] = user_ip
     return response
 
 
-@app.route('/home', methods=['GET','POST'])
+@app.route('/login', methods=['GET','POST'])
+def login():
+    login_form = LoginForm()
+    user_ip = session.get('user_ip')
+    context = {
+        'login_form': login_form,
+        'user_ip': user_ip,
+    }
+
+    if login_form.validate_on_submit():
+        username = login_form.username.data
+        session['username'] = username
+        print(username)
+
+        return redirect(url_for('home'))
+
+    return render_template('login.html', **context)
+
+
+@app.route('/home')
 def home():
     user_ip = session.get('user_ip')
+    login_form = LoginForm()
+    username = session.get('username')
     context = {
         'user_ip': user_ip,
         'tasks': tasks,
-        'login_form': LoginForm()
+        'login_form': login_form,
+        'username': username
     }
+
     return render_template('home.html', **context)
 
 
