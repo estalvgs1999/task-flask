@@ -24,10 +24,10 @@
     {% endblock %}
 
     {% for category, message in get_flashed_messages(with_categories=true) %}
-    <div class="alert alert-{{ category }} alert-dismissible">
-        <button type="button" data-dismiss="alert" class="close">&times;</button>
-        {{ message }}
-    </div>
+        <div class="alert alert-{{ category }} alert-dismissible">
+            <button type="button" data-dismiss="alert" class="close">&times;</button>
+            {{ message }}
+        </div>
     {% endfor %}
 
     {% block content %}

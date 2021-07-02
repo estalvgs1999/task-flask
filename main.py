@@ -3,6 +3,7 @@ from flask_bootstrap import Bootstrap
 from flask_wtf import FlaskForm
 from wtforms.fields import StringField, PasswordField,SubmitField
 from wtforms.validators import DataRequired
+import unittest
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = '36d4J0Ltp3lRtee9HDxY3K'
@@ -15,6 +16,12 @@ class LoginForm(FlaskForm):
     username = StringField('Username or email', validators=[DataRequired()])
     password = PasswordField('Password', validators=[DataRequired()])
     submit = SubmitField('Sign in')
+
+
+@app.cli.command()
+def test():
+    tests = unittest.TestLoader().discover('tests')
+    unittest.TextTestRunner().run(tests)
 
 
 @app.errorhandler(404)
@@ -77,6 +84,7 @@ def home():
 
 def auth(login):
     return login.password.data == '12345'
+
 
 if __name__ == '__main__':
     app.run(debug=True)
