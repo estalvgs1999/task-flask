@@ -8,7 +8,7 @@
 {% endblock %}
 
 {% block content %}
-    <h1>Welcome {{ username }}!</h1>
+    <h1>Welcome {{ username | capitalize }}!</h1>
     <p>Ipv4: {{ user_ip }}</p>
     <ul class="tasks">
         {% for task in tasks %}

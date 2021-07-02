@@ -1,4 +1,4 @@
-from flask import Flask, request, make_response, redirect, render_template, session, url_for
+from flask import Flask, request, make_response, redirect, render_template, session, url_for, flash
 from flask_bootstrap import Bootstrap
 from flask_wtf import FlaskForm
 from wtforms.fields import StringField, PasswordField,SubmitField
@@ -47,10 +47,14 @@ def login():
     if login_form.validate_on_submit():
         username = login_form.username.data
         session['username'] = username
-        print(username)
-
-        return redirect(url_for('home'))
-
+        
+        if auth(login_form):
+            flash('Successful sign up', category='success')
+            return redirect(url_for('home'))
+        else:
+            flash('Authentication Error', category='danger')
+            return redirect(url_for('login'))
+    
     return render_template('login.html', **context)
 
 
@@ -70,6 +74,9 @@ def home():
         return render_template('home.html', **context)
     return make_response(redirect('/login'))
 
+
+def auth(login):
+    return login.password.data == '12345'
 
 if __name__ == '__main__':
     app.run(debug=True)
