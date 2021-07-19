@@ -1,4 +1,4 @@
-
+# run as source
 #!/bin/sh
 export FLASK_APP=main.py
 export FLASK_DEBUG=1
@@ -9,4 +9,6 @@ activate() {
     . ../venv/bin/activate
 }
 
-flask run
+# Test app
+alias test='flask test'
+alias run='flask run'
