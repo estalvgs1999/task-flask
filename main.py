@@ -1,21 +1,12 @@
-from flask import Flask, request, make_response, redirect, render_template, session, url_for, flash
-from flask_bootstrap import Bootstrap
-from flask_wtf import FlaskForm
-from wtforms.fields import StringField, PasswordField,SubmitField
-from wtforms.validators import DataRequired
+from flask import request, make_response, redirect, render_template, session, url_for, flash
 import unittest
 
-app = Flask(__name__)
-app.config['SECRET_KEY'] = '36d4J0Ltp3lRtee9HDxY3K'
+from app import create_app
+from app.forms import LoginForm
 
-bootstrap = Bootstrap(app)
+app = create_app()
 
-tasks = ['Task 1','Task 2','Task 3']
-
-class LoginForm(FlaskForm):
-    username = StringField('Username or email', validators=[DataRequired()])
-    password = PasswordField('Password', validators=[DataRequired()])
-    submit = SubmitField('Sign in')
+tasks = ['Task 1', 'Task 2', 'Task 3']
 
 
 @app.cli.command()
@@ -42,7 +33,7 @@ def index():
     return response
 
 
-@app.route('/login', methods=['GET','POST'])
+@app.route('/login', methods=['GET', 'POST'])
 def login():
     login_form = LoginForm()
     user_ip = session.get('user_ip')
@@ -54,14 +45,14 @@ def login():
     if login_form.validate_on_submit():
         username = login_form.username.data
         session['username'] = username
-        
+
         if auth(login_form):
             flash('Successful sign up', category='success')
             return redirect(url_for('home'))
         else:
             flash('Authentication Error', category='danger')
             return redirect(url_for('login'))
-    
+
     return render_template('login.html', **context)
 
 
